@@ -923,6 +923,79 @@ namespace Sistrategia.SAT.CFDiWebSite.Data
             timbre.Property(p => p.SelloSAT)
                 .HasColumnName("sello_sat");
 
+            var doctoRelacionado = modelBuilder.Entity<ComprobantePagoDoctoRelacionado>()
+                .ToTable("sat_comprobante_pago_docto_relacionado");
+            doctoRelacionado.Property(p => p.ComprobantePagoDoctoRelacionadoId)
+                .HasColumnName("comprobante_pago_docto_relacionado_id");
+            doctoRelacionado.Property(p => p.IdDocumento)
+                .HasColumnName("id_documento");
+            doctoRelacionado.Property(p => p.Serie)
+               .HasColumnName("serie");
+            doctoRelacionado.Property(p => p.Folio)
+               .HasColumnName("folio");
+            doctoRelacionado.Property(p => p.MonedaDR)
+               .HasColumnName("moneda_d_r");
+            doctoRelacionado.Property(p => p.TipoCambioDR)
+               .HasColumnName("tipo_cambio_d_r");
+            doctoRelacionado.Property(p => p.MetodoDePagoDR)
+               .HasColumnName("metodo_de_pago_d_r");
+            doctoRelacionado.Property(p => p.NumParcialidades)
+               .HasColumnName("num_parcialidades");
+            doctoRelacionado.Property(p => p.ImpSaldAnt)
+               .HasColumnName("imp_sald_ant");
+            doctoRelacionado.Property(p => p.ImpPagado)
+               .HasColumnName("imp_pagado");
+            doctoRelacionado.Property(p => p.ImpSaldoInsoluto)
+               .HasColumnName("imp_saldo_insoluto");
+            doctoRelacionado.Property(p => p.Ordinal)
+               .HasColumnName("ordinal");
+
+   
+            //doctoRelacionado.Property(p => p.ComprobantePago_ComplementoId)
+            // .HasColumnName("comprobante_pago_complemento_id");
+
+
+            var comprobantePago = modelBuilder.Entity<ComprobantePago>()
+                .ToTable("sat_comprobante_pago");
+            comprobantePago.Property(p => p.Version)
+                .HasColumnName("version");
+            comprobantePago.Property(p => p.FechaPago)
+                .HasColumnName("fecha_pago");
+            comprobantePago.Property(p => p.FormaDePagoP)
+                .HasColumnName("forma_de_pago");
+            comprobantePago.Property(p => p.MonedaP)
+                .HasColumnName("moneda_p");
+            comprobantePago.Property(p => p.TipoCambioP)
+                .HasColumnName("tipo_cambio_p");
+            comprobantePago.Property(p => p.Monto)
+                .HasColumnName("monto");
+            comprobantePago.Property(p => p.NumOperacion)
+                .HasColumnName("num_operacion");
+            comprobantePago.Property(p => p.RfcEmisorCtaOrd)
+                .HasColumnName("rfc_emisor_cta_ord");
+            comprobantePago.Property(p => p.NombBancoOrdExt)
+                .HasColumnName("nomb_banco_ord_ext");
+            comprobantePago.Property(p => p.CtaOrdenante)
+                .HasColumnName("cta_ordenante");
+            comprobantePago.Property(p => p.RfcEmisorCtaBen)
+                .HasColumnName("rfc_emisor_cta_ben");
+            comprobantePago.Property(p => p.CtaBeneficiario)
+                .HasColumnName("cta_beneficiario");
+            comprobantePago.Property(p => p.TipoCadPago)
+                .HasColumnName("tipo_cad_pago");
+            comprobantePago.Property(p => p.CertPago)
+                .HasColumnName("cert_pago");
+            comprobantePago.Property(p => p.CadPago)
+                .HasColumnName("cad_pago");
+            comprobantePago.Property(p => p.SelloPago)
+                .HasColumnName("sello_pago");
+            comprobantePago.HasMany<ComprobantePagoDoctoRelacionado>(p => p.DoctosRelacionados)
+              .WithOptional()
+             .Map(pe => pe.MapKey("comprobante_pago_id"));
+            //comprobantePago.Property(p => p.DoctosRelacionados)
+            //    .HasColumnName("doctos_relacionados");
+
+            
 
             var cancelacion = modelBuilder.Entity<Cancelacion>()
                 .ToTable("sat_cancelacion");
