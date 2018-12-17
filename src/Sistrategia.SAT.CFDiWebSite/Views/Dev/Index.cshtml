@@ -1,5 +1,6 @@
-﻿@{
-  ViewBag.Title = "Configuración Avanzada";
+﻿@model Sistrategia.SAT.CFDiWebSite.Models.MigrationViewModel
+@{
+    ViewBag.Title = "Configuración Avanzada";
 }
 
 <h1>@ViewBag.Title</h1>
@@ -7,19 +8,58 @@
 
 <dl class="dl-horizontal">
 
-  <dt>cfdiService: </dt>
-  <dd>@ViewBag.cfdiService</dd>
+    <dt>cfdiService: </dt>
+    <dd>@ViewBag.cfdiService</dd>
 
-  <dt>cfdiServiceTimeSpan: </dt>
-  <dd>@ViewBag.cfdiServiceTimeSpan</dd>
+    <dt>cfdiServiceTimeSpan: </dt>
+    <dd>@ViewBag.cfdiServiceTimeSpan</dd>
 
 </dl>
+<div class="row">
+    <div class="col-md-6">
+        <h4 style="font-weight:bold">
+            Versión actual
+        </h4>
+        <p>
+            @Model.CurrentMigration.Name
+        </p>
+    </div>
+    <div class="col-md-6">
+        <h4 style="font-weight:bold">
+            Actualizaciones disponibles
+        </h4>
+        @foreach (var item in Model.PendingMigrations)
+        {
+            <p> @item.Name</p>
+        }
+    </div>
+</div>
 
 <div class="row">
-  <div class="col-md-12">
-    
-      <a target="_blank" href="@Url.Action("GetTimbradoLog")" class="btn btn-primary">Timbrado Log</a>
-    
+    <div class="col-md-12">
 
-  </div>
+
+        <a target="_blank" href="@Url.Action("GetTimbradoLog")" class="btn btn-primary">Timbrado Log</a>
+        <br /><br />
+        @if (Model.PendingMigrations.Count() != 0)
+        {
+
+            <a class="btn btn-success" role="button" href="~/Dev/CreateDatabase">Last Version</a>
+        }
+
+        @if (Model.PendingMigrations.Count() != 0)
+        {
+            <a class="btn btn-success" role="button" href="~/Dev/Upgrade">Upgrade</a>
+        }
+        @if (ViewBag.downgrade == true) { 
+        <a class="btn btn-warning" role="button" href="~/Dev/Downgrade">Downgrade</a>
+        }
+           
+        @if (Model.CurrentMigration.Name != "Empty") { 
+        
+        <a class="btn btn-danger" role="button" href="~/Dev/DropSchema">Drop Schema</a>
+        }     
+
+
+    </div>
 </div>

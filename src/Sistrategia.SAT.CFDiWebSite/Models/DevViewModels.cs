@@ -10,4 +10,16 @@ namespace Sistrategia.SAT.CFDiWebSite.Models
     {
         public List<CloudStorageItem> CloudStorageItems { get; set; }        
     }
+    public class MigrationViewModel
+
+    {
+        public List<Migration> PendingMigrations { get; set; }
+        public Migration CurrentMigration { get; set; }  
+
+    }
+
+    public class Migration
+    {
+        public string Name { get; set; }
+    }
 }

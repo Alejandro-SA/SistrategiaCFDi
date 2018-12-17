@@ -10,10 +10,12 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Sistrategia.SAT.CFDiWebSite.CFDI;
 using Sistrategia.SAT.CFDiWebSite.CloudStorage;
 using Sistrategia.SAT.CFDiWebSite.Models;
+using System.Data.Entity.Migrations;
+using Newtonsoft.Json;
 
 namespace Sistrategia.SAT.CFDiWebSite.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class DevController : BaseController
     {
         // GET: Dev
@@ -21,9 +23,104 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
         {
             this.ViewBag.cfdiService = ConfigurationManager.AppSettings["cfdiService"];
             this.ViewBag.cfdiServiceTimeSpan = SATManager.GetCFDIServiceTimeSpan().Minutes.ToString();
-
-            return View();
+            var model = new MigrationViewModel();
+            //Migrator Config
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+            var migrationsApplied = migrator.GetDatabaseMigrations();
+            //Current Migration
+            var currentMigration = new Migration();
+            if (migrationsApplied.Count() != 0) {
+                var testLst = migrationsApplied.First();
+                currentMigration.Name = migrationsApplied.First();
+            }
+            else {
+                currentMigration.Name = "Empty";
+            }
+            
+            model.CurrentMigration = currentMigration;
+            //Pending Migrations
+            var pendingMigrations = new List<Migration>();
+            
+            var migrationsPending = migrator.GetPendingMigrations();
+            foreach (var item in migrationsPending)
+            {
+                pendingMigrations.Add(new Migration
+                {
+                    Name = item
+                });
+            }
+            model.PendingMigrations = pendingMigrations;
+            //Can downgrade
+            if (migrationsApplied.Count() <= 1)
+            {
+                this.ViewBag.downgrade = false;
+            }
+            else {
+                this.ViewBag.downgrade = true;
+            }
+            return View(model);
         }
+
+        public ActionResult CreateDatabase()
+        {
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+            migrator.Update();
+            //return Redirect("~/Dev");
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Downgrade()
+        {
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+            var migrationsApplied = migrator.GetDatabaseMigrations();
+            var previousUpdate = migrationsApplied.ToList()[1];
+            migrator.Update(previousUpdate);
+            //return Redirect("~/Dev");
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult Upgrade()
+        {
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+            var migrationsPending = migrator.GetPendingMigrations();
+            var nextUpdate = migrationsPending.ToList()[0];
+            migrator.Update(nextUpdate);
+            //return Redirect("~/Dev");
+            return RedirectToAction("Index");
+        }
+
+
+        public ActionResult DropSchema()
+        {
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+            migrator.Update("0");
+            //return Redirect("~/Dev");
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult DowngradeSchema()
+        {
+            var config = new Migrations.Configuration();
+            var migrator = new DbMigrator(config);
+
+            migrator.Update("v33");
+            //return Redirect("~/Dev");
+            return RedirectToAction("Index");
+        }
+
+        //public ActionResult GetPendingMigrations()
+        //{
+        //    var config = new Migrations.Configuration();
+        //    var migrator = new DbMigrator(config);
+        //    var migrations = migrator.GetPendingMigrations();
+        //    string converted = JsonConvert.SerializeObject(migrations);
+        //    return Json(converted, JsonRequestBehavior.AllowGet);
+        //}
 
 
         public ActionResult GetTimbradoLog()
@@ -120,7 +217,7 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
             CFDI.ComprobanteEmisor comprobanteEmisor = null;
             comprobanteEmisor = DBContext.ComprobantesEmisores.Find(1);
 
-            List <CFDI.ComprobanteEmisorRegimenFiscal> regimenes = new List<CFDI.ComprobanteEmisorRegimenFiscal>();
+            List<CFDI.ComprobanteEmisorRegimenFiscal> regimenes = new List<CFDI.ComprobanteEmisorRegimenFiscal>();
 
             regimenes.Add(new CFDI.ComprobanteEmisorRegimenFiscal()
             {
@@ -421,7 +518,8 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
 
             string invoiceFileName = DateTime.Now.ToString("yyyyMMddHHmmss_" + comprobante.PublicKey.ToString("N"));
 
-            try { 
+            try
+            {
                 SATManager manager = new SATManager();
                 bool response = manager.GetCFDI(user, password, comprobante);
                 if (response)
@@ -434,5 +532,31 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
                 return ex.Message.ToString();
             }
         }
+
+        //private List<Migration> GetPendingMigrations()
+        //{
+        //    var pendingMigrations = new List<Migration>();
+        //    var config = new Migrations.Configuration();
+        //    var migrator = new DbMigrator(config);
+        //    var migrations = migrator.GetPendingMigrations();
+        //    foreach (var item in migrations)
+        //    {
+        //        pendingMigrations.Add(new Migration { 
+        //            Name = item
+        //        });
+        //    }
+        //    return pendingMigrations;
+        //}
+
+        //private Migration GetCurrentMigration()
+        //{
+        //    var currentMigration = new Migration();
+        //    var config = new Migrations.Configuration();
+        //    var migrator = new DbMigrator(config);
+        //    var migrations = migrator.GetDatabaseMigrations();
+        //    var testLst = migrations.First();
+        //    currentMigration.Name = migrations.First();
+        //    return currentMigration;
+        //}
     }
 }
