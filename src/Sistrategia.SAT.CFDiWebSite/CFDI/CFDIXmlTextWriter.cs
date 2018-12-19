@@ -1484,16 +1484,15 @@ namespace Sistrategia.SAT.CFDiWebSite.CFDI
 
                          writer.WriteEndElement();
                      }
-                     else if (complemento is ComprobantePago) {
-                        ComprobantePago pago = (ComprobantePago)complemento;
-
+                     else if (complemento is ComprobantePagos) {
+                        ComprobantePagos pagos = (ComprobantePagos)complemento;                        
 
                         writer.WriteStartElement("pago10", "Pagos", "http://www.sat.gob.mx/Pagos");
 
-                        writer.WriteAttributeString("Version", pago.Version);
+                        writer.WriteAttributeString("Version", pagos.Version);
 
-                        //foreach (ComprobantePago pago in comprobante.Complemento.RecepcionPagos)
-                        //{
+                        foreach (ComprobantePago pago in ((ComprobantePagos)complemento).Comprobantes)
+                        {
                             writer.WriteStartElement("pago10", "Pago", "http://www.sat.gob.mx/Pagos");
 
                             writer.WriteAttributeString("FechaPago", pago.FechaPago.ToString("yyyy-MM-ddTHH:mm:ss"));
@@ -1571,7 +1570,7 @@ namespace Sistrategia.SAT.CFDiWebSite.CFDI
                                 writer.WriteEndElement();// Cierre de docto Relacionado
                             }
                             writer.WriteEndElement();// Cierre de pago
-                        //}
+                        }
 
                         writer.WriteEndElement(); //Cierre de complemento de Pagos
 

@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "Testing";
+}
+
+<h2>Nuevo Pago</h2>
+<form action="/es-ES/Emisor/Create" class="form-horizontal" method="post" role="form">
+
+    @*@using (Html.BeginForm("Create", "Emisor", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
+    @*{*@
+    @Html.AntiForgeryToken()
+    <h4>Crea un nuevo pago</h4>
+    <hr />
+    @*@Html.ValidationSummary("", new { @class = "text-danger" })*@
+
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Emisor:</label>
+        <div class="col-md-10">
+            <p class="form-control-static">
+                <span> JEOCSI</span>
+            </p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">RFC emisor:</label>
+        @*@Html.LabelFor(m => m.RFC, new { @class = "col-md-2 control-label" })*@
+        <div class="col-md-10">
+            <p class="form-control-static">
+                <span> XXXX1111111</span>
+            </p>
+            @*@Html.TextBoxFor(m => m.RFC, new { @class = "form-control" })*@
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Cliente</label>
+        @*@Html.LabelFor(m => m.RFC, new { @class = "col-md-2 control-label" })*@
+        <div class="col-md-10">
+            <input class="form-control" id="RFC" name="RFC" type="text" value="">
+            @*@Html.TextBoxFor(m => m.RFC, new { @class = "form-control" })*@
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">RFC Receptor</label>
+        <div class="col-md-10">
+            <input class="form-control" id="RFC" name="RFC" type="text" value="XXXX1111111">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Fecha de expedición</label>
+        <div class="col-md-10">
+            <input class="form-control" id="RFC" name="RFC" type="date">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Serie</label>
+        <div class="col-md-10">
+            <select class="form-control">
+                <option>CD</option>
+                <option>2</option>
+            </select>
+
+        </div>
+    </div>
+
+    <h3>Datos del Pago</h3>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Fecha de pago</label>
+        <div class="col-md-10">
+            <input class="form-control" id="RFC" name="RFC" type="date">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Monto</label>
+        <div class="col-md-4">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <label class="col-md-1 control-label" for="RFC">Moneda</label>
+        <div class="col-md-2">
+
+            <select class="form-control">
+                <option>MXN</option>
+                <option>USD</option>
+            </select>
+
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Forma de pago</label>
+        <div class="col-md-10">
+            <select class="form-control">
+                <option>Efectivo</option>
+                <option>Transferencia</option>
+            </select>
+
+        </div>
+    </div>
+
+    <h3>Documentos Relacionados</h3>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">ID Documento</label>
+        <div class="col-md-2">
+            <input class="form-control" id="RFC" name="RFC" type="text">
+        </div>
+        <label class="col-md-1 control-label" for="RFC">Folio</label>
+        <div class="col-md-2">
+            <input class="form-control" id="RFC" name="RFC" type="text">
+        </div>
+        <label class="col-md-1 control-label" for="RFC">Serie</label>
+        <div class="col-md-2">
+            <input class="form-control" id="RFC" name="RFC" type="text">
+        </div>
+        <div class="col-md-2" style="text-align:center"> <button class=" btn btn-primary" style="width:100%">Buscar</button></div>
+    </div>
+    <div class="form-group">
+
+
+        <label class="col-md-2 control-label" for="RFC">Moneda</label>
+        <div class="col-md-2">
+
+            <select class="form-control">
+                <option>MXN</option>
+                <option>USD</option>
+            </select>
+
+        </div>
+        <label class="col-md-2 control-label" for="RFC">Forma de Pago</label>
+        <div class="col-md-3">
+
+            <select class="form-control">
+                <option>Efectivo</option>
+                <option>Transferencia</option>
+            </select>
+
+        </div>
+
+    </div>
+
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">Saldo anterior</label>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+        <label class="col-md-2 control-label" for="RFC">Importe pagado</label>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+        <label class="col-md-2 control-label" for="RFC">Saldo insoluto</label>
+        <div class="col-md-2">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control">
+            </div>
+        </div>
+
+    </div>
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="RFC">N de parcialidad</label>
+        <div class="col-md-2">
+            <input class="form-control" id="RFC" name="RFC" type="text">
+        </div>
+        <div class="col-md-2 col-md-offset-2" style="text-align:center"> <button class=" btn btn-primary" style="width:100%">Agregar</button></div>
+
+    </div>
+
+
+
+    <hr />
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-primary" value="Guardar" />
+        </div>
+    </div>
+</form>
+@*}*@
+

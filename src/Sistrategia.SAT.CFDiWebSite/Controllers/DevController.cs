@@ -406,9 +406,9 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
             //});
 
             comprobante.Conceptos.Add(concepto);
-
+            ComprobantePagos comprobantePagos = new ComprobantePagos();
             ComprobantePago comprobantePago = new ComprobantePago();
-            comprobantePago.Version = "1.0";
+            //comprobantePago.Version = "1.0";
             comprobantePago.FechaPago = DateTime.Parse("2018-05-14T12:00:00");
             comprobantePago.FormaDePagoP = "03";
             comprobantePago.MonedaP = "MXN";
@@ -450,10 +450,10 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
             docto.Ordinal = 1;
 
             comprobantePago.DoctosRelacionados.Add(docto);
-
+            comprobantePagos.Comprobantes.Add(comprobantePago);
             if (comprobante.Complementos == null)
                 comprobante.Complementos = new List<Complemento>();
-            comprobante.Complementos.Add(comprobantePago);
+            comprobante.Complementos.Add(comprobantePagos);
 
             //comprobante.Impuestos = new CFDI.Impuestos();
             //comprobante.Impuestos.Traslados = new List<CFDI.Traslado>();
@@ -505,6 +505,10 @@ namespace Sistrategia.SAT.CFDiWebSite.Controllers
 
         }
 
+        public ActionResult Testing() 
+        {
+            return View();
+        }
         public string Timbre33()
         {
             var comprobante = DBContext.Comprobantes.Find(2408);

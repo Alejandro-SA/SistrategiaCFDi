@@ -954,11 +954,23 @@ namespace Sistrategia.SAT.CFDiWebSite.Data
             //doctoRelacionado.Property(p => p.ComprobantePago_ComplementoId)
             // .HasColumnName("comprobante_pago_complemento_id");
 
+            var comprobantePagos = modelBuilder.Entity<ComprobantePagos>()
+              .ToTable("sat_comprobante_pagos");
+            comprobantePagos.Property(p => p.Version)
+                .HasColumnName("version");
+            comprobantePagos.Property(p => p.Status)
+                .HasColumnName("status");
+            comprobantePagos.HasMany<ComprobantePago>(p => p.Comprobantes)
+            .WithOptional()
+           .Map(pe => pe.MapKey("comprobante_pagos_id"));
+
 
             var comprobantePago = modelBuilder.Entity<ComprobantePago>()
                 .ToTable("sat_comprobante_pago");
-            comprobantePago.Property(p => p.Version)
-                .HasColumnName("version");
+            //comprobantePago.Property(p => p.Version)
+            //    .HasColumnName("version");
+            comprobantePago.Property(p => p.ComprobantePagoId)
+                .HasColumnName("comprobante_pago_id");
             comprobantePago.Property(p => p.FechaPago)
                 .HasColumnName("fecha_pago");
             comprobantePago.Property(p => p.FormaDePagoP)

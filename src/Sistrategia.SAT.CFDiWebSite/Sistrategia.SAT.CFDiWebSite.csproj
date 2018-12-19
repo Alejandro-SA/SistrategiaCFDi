@@ -449,6 +449,7 @@
     <Content Include="Views\Dev\GetTimbradoLog.cshtml" />
     <Content Include="Views\Comprobante\EditOLD.cshtml" />
     <Content Include="Views\Comprobante\ddm3.cshtml" />
+    <Content Include="Views\Dev\Testing.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -479,6 +480,7 @@
     <Compile Include="CFDI\CFDIServiceInterfaces.cs" />
     <Compile Include="CFDI\CFDIXmlTextWriter.cs" />
     <Compile Include="CFDI\Complemento.cs" />
+    <Compile Include="CFDI\CompobantePagos.cs" />
     <Compile Include="CFDI\Comprobante.cs" />
     <Compile Include="CFDI\ComprobanteExtendedClasses.cs" />
     <Compile Include="CFDI\ComprobantePago.cs" />
